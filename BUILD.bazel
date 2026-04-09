@@ -1,0 +1,28 @@
+"""sonic-gnmi Debian packages — migrated from rules/sonic-gnmi.mk."""
+
+load("//rules/bazel/deb:deb.bzl", "deb_package_set")
+
+package(default_visibility = ["//visibility:public"])
+
+deb_package_set(
+    name = "sonic_gnmi_debs",
+    srcs = glob(
+        ["**/*"],
+        exclude = [
+            ".git/**",
+            "BUILD.bazel",
+            "testdata/**",
+        ],
+    ),
+    build_deps = [
+        "//src/sonic-mgmt-common:mgmt_common",
+        "//src/sonic-mgmt-common:mgmt_common_codegen",
+        "//build/deb/sonic-swss-common:swss_common_dev",
+    ],
+    debian_dir = "debian",
+    declared_outputs = [
+        "sonic-gnmi_0.1_$(ARCH).deb",
+    ],
+    version = "0.1",
+    visibility = ["//visibility:public"],
+)
